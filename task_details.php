@@ -26,45 +26,49 @@ require_once $abs_us_root.$us_url_root.'users/includes/navigation.php';
 
 <?php if (!securePage($_SERVER['PHP_SELF'])){die();} ?>
 <?php
-$jobsQ = $db->query("SELECT * FROM jobs WHERE worker = ?",array($user->data()->id));
-$jobsC = $jobsQ->count();
-if($jobsC > 0){
-	$jobs = $jobsQ->results();
+$id = Input::get('task');
+$j = Input::get('job');
+
+//Security Stuff
+
+//make sure the id is a number
+if(!is_numeric($id)){
+	Redirect::to('index.php?err=Something+went+wrong');
 }
+$jobQ = $db->query("SELECT * FROM jobs WHERE id = ?",array($j));
+$jobC = $jobQ->count();
+//make sure the job exists
+if($jobC < 1){
+	Redirect::to("index.php?err=Job+not+found");
+}else{
+	$job = $jobQ->first();
+}
+$tasksQ = $db->query("SELECT * FROM job_task_info WHERE task = ?",array($id));
+$tasksC = $tasksQ->count();
+if($tasksC > 0){
+	$tasks = $tasksQ->first();
+	if($tasks->job != $j){
+		Redirect::to('index.php?err=This+task+does+not+belong+to+this+job');
+	}
+}
+//You must be an admin, the owner, or the worker to view the tasks
+if(!hasPerm([2],$user->data()->id) && (($job->owner != $user->data()->id ) || $job->worker != $user->data()->id)){
+	Redirect::to('index.php?err=You+do+not+have+permission+to+view+this+job');
+}
+
 ?>
 <div id="page-wrapper">
 	<div class="container-fluid">
-		<!-- Page Heading -->
+		<!-- Page Heading-->
 		<div class="row">
 			<div class="col-sm-12">
 				<h1 class="page-header">
-					Your Jobs
+				 Job Tasks
 				</h1>
-				<?php if($jobsC < 1){
-					echo "You do not have any jobs assigned to you";
+				<?php if($tasksC < 1){
+					echo "This task does not have any details";
 				}else{?>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Job Name</th>
-								<th>Owner</th>
-								<th>Created</th>
-								<th>Last Update</th>
-								<th>Complete</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach($jobs as $j){  ?>
-								<tr>
-									<td><a href="job_tasks.php?task=<?=$j->id?>"><?=$j->job_name?></a></td>
-									<td><?php echouser($j->owner);?></td>
-									<td><?=$j->created?></td>
-									<td><?=$j->last_update?></td>
-									<td><?=bin($j->complete)?></td>
-								</tr>
-							<?php } ?>
-						</tbody>
-					</table>
+					Detail1: <?=$tasks->detail1?>
 				<?php }?>
 			</div> <!-- /.col -->
 		</div> <!-- /.row -->

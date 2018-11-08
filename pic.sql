@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2018 at 08:37 PM
+-- Generation Time: Nov 08, 2018 at 09:07 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -202,6 +202,14 @@ CREATE TABLE `job_tasks` (
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `job_tasks`
+--
+
+INSERT INTO `job_tasks` (`id`, `job`, `task`, `amt`, `amt_done`, `complete`, `last_update`) VALUES
+(1, 1, 'Buy Milk', '10', '0', 0, '2018-11-08 19:50:47'),
+(2, 1, 'Buy apples', '5', '1', 0, '2018-11-08 19:50:47');
+
 -- --------------------------------------------------------
 
 --
@@ -215,6 +223,14 @@ CREATE TABLE `job_task_info` (
   `rating` varchar(50) NOT NULL,
   `detail1` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `job_task_info`
+--
+
+INSERT INTO `job_task_info` (`id`, `job`, `task`, `rating`, `detail1`) VALUES
+(1, 1, 1, '', 'Do not buy Almond Milk!'),
+(2, 1, 2, '', 'Get yellow apples with no blemishes!');
 
 -- --------------------------------------------------------
 
@@ -293,7 +309,13 @@ INSERT INTO `logs` (`id`, `user_id`, `logdate`, `logtype`, `lognote`) VALUES
 (118, 1, '2018-04-26 00:51:09', 'System Updates', 'Added permissions to users/admin_manage_sessions.php.'),
 (119, 1, '2018-04-26 00:51:09', 'System Updates', 'Update XX4zArPs4tor successfully deployed.'),
 (120, 1, '2018-11-09 00:31:27', 'System Upates', 'Sanitized 0 Bios'),
-(121, 1, '2018-11-09 00:31:27', 'System Updates', 'Update mS5VtQCZjyJs successfully deployed.');
+(121, 1, '2018-11-09 00:31:27', 'System Updates', 'Update mS5VtQCZjyJs successfully deployed.'),
+(122, 1, '2018-11-09 00:40:55', 'User', 'User logged in.'),
+(123, 1, '2018-11-09 00:41:08', 'Pages Manager', 'Added 2 permission(s) to jobs.php.'),
+(124, 1, '2018-11-09 00:41:08', 'Pages Manager', 'Retitled \'jobs.php\' to \'Your Jobs\'.'),
+(125, 1, '2018-11-09 00:54:02', 'Pages Manager', 'Added 2 permission(s) to jobs_tasks.php.'),
+(126, 1, '2018-11-09 00:54:42', 'Pages Manager', 'Added 2 permission(s) to job_tasks.php.'),
+(127, 1, '2018-11-09 01:00:49', 'Pages Manager', 'Added 2 permission(s) to task_details.php.');
 
 -- --------------------------------------------------------
 
@@ -518,7 +540,6 @@ INSERT INTO `pages` (`id`, `page`, `title`, `private`, `re_auth`) VALUES
 (72, 'users/admin_ips.php', 'IP Manager', 1, 0),
 (73, 'users/subscribe.php', '', 1, 0),
 (74, 'users/admin_notifications.php', 'Notifications Manager', 1, 0),
-(75, 'users/enable2fa.php', 'Two Factor Authentication', 1, 0),
 (76, 'users/enable2fa.php', 'Enable 2 Factor Auth', 1, 0),
 (77, 'users/disable2fa.php', 'Disable 2 Factor Auth', 1, 0),
 (78, 'users/admin_forms.php', 'Form Manager', 1, 0),
@@ -527,7 +548,12 @@ INSERT INTO `pages` (`id`, `page`, `title`, `private`, `re_auth`) VALUES
 (81, 'users/admin_pin.php', 'Verification PIN Set', 1, 0),
 (82, 'users/manage2fa.php', 'Manage Two FA', 1, 0),
 (83, 'users/manage_sessions.php', 'Session Manage', 1, 0),
-(84, 'users/admin_manage_sessions.php', 'Session Manage', 1, 1);
+(84, 'users/admin_manage_sessions.php', 'Session Manage', 1, 1),
+(85, 'jobs.php', 'Your Jobs', 1, 0),
+(86, 'users/twofa.php', '', 1, 0),
+(87, 'jobs_tasks.php', '', 1, 0),
+(88, 'job_tasks.php', '', 1, 0),
+(89, 'task_details.php', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -614,7 +640,15 @@ INSERT INTO `permission_page_matches` (`id`, `permission_id`, `page_id`) VALUES
 (54, 1, 81),
 (55, 1, 82),
 (56, 1, 83),
-(57, 2, 84);
+(57, 2, 84),
+(58, 1, 85),
+(59, 2, 85),
+(60, 1, 87),
+(61, 2, 87),
+(62, 1, 88),
+(63, 2, 88),
+(64, 1, 89),
+(65, 2, 89);
 
 -- --------------------------------------------------------
 
@@ -803,7 +837,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_new`, `username`, `password`, `pin`, `fname`, `lname`, `permissions`, `logins`, `account_owner`, `account_id`, `company`, `join_date`, `last_login`, `email_verified`, `vericode`, `vericode_expiry`, `active`, `oauth_provider`, `oauth_uid`, `gender`, `locale`, `gpluslink`, `picture`, `created`, `modified`, `fb_uid`, `un_changed`, `msg_exempt`, `last_confirm`, `protected`, `dev_user`, `msg_notification`, `force_pr`, `twoKey`, `twoEnabled`, `twoDate`, `cloak_allowed`) VALUES
-(1, 'userspicephp@gmail.com', NULL, 'admin', '$2y$12$1v06jm2KMOXuuo3qP7erTuTIJFOnzhpds1Moa8BadnUUeX0RV3ex.', NULL, 'The', 'Admin', 1, 0, 1, 0, 'UserSpice', '2016-01-01 00:00:00', '2017-10-09 15:20:34', 1, 'nlPsJDtyeqFWsS', '2018-04-25 16:51:08', 0, '', '', '', '', '', '', '0000-00-00 00:00:00', '1899-11-30 00:00:00', '', 0, 1, '2017-10-08 15:24:37', 1, 0, 1, 0, NULL, 0, NULL, 0),
+(1, 'userspicephp@gmail.com', NULL, 'admin', '$2y$12$1v06jm2KMOXuuo3qP7erTuTIJFOnzhpds1Moa8BadnUUeX0RV3ex.', NULL, 'The', 'Admin', 1, 1, 1, 0, 'UserSpice', '2016-01-01 00:00:00', '2018-11-08 19:40:55', 1, 'nlPsJDtyeqFWsS', '2018-11-08 19:40:55', 0, '', '', '', '', '', '', '0000-00-00 00:00:00', '1899-11-30 00:00:00', '', 0, 1, '2017-10-08 15:24:37', 1, 0, 1, 0, NULL, 0, NULL, 0),
 (2, 'noreply@userspice.com', NULL, 'user', '$2y$12$HZa0/d7evKvuHO8I3U8Ff.pOjJqsGTZqlX8qURratzP./EvWetbkK', NULL, 'Sample', 'User', 1, 0, 1, 0, 'none', '2016-01-02 00:00:00', '2017-10-08 15:47:41', 1, '2ENJN4xD8nnjOgk', '2018-04-25 16:51:08', 1, '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 0, 0, NULL, 0, 0, 1, 0, NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
@@ -825,7 +859,7 @@ CREATE TABLE `users_online` (
 --
 
 INSERT INTO `users_online` (`id`, `ip`, `timestamp`, `user_id`, `session`) VALUES
-(1, '::1', '1524675073', 1, '');
+(1, '::1', '1541707619', 1, '');
 
 -- --------------------------------------------------------
 
@@ -1288,13 +1322,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `job_tasks`
 --
 ALTER TABLE `job_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `job_task_info`
 --
 ALTER TABLE `job_task_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `keys`
@@ -1306,7 +1340,7 @@ ALTER TABLE `keys`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `logs_exempt`
@@ -1348,7 +1382,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -1360,7 +1394,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `permission_page_matches`
 --
 ALTER TABLE `permission_page_matches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `profiles`
