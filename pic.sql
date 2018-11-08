@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2018 at 08:32 PM
+-- Generation Time: Nov 08, 2018 at 08:37 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -171,13 +171,20 @@ INSERT INTO `groups_menus` (`id`, `group_id`, `menu_id`) VALUES
 
 CREATE TABLE `jobs` (
   `id` int(11) NOT NULL,
-  `job_name` int(11) NOT NULL,
+  `job_name` varchar(255) NOT NULL,
   `owner` int(11) NOT NULL,
   `worker` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `last_update` datetime NOT NULL,
-  `complete` int(1) NOT NULL
+  `complete` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `job_name`, `owner`, `worker`, `created`, `last_update`, `complete`) VALUES
+(1, 'Test Job 1', 2, 1, '2018-11-08 19:36:16', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -191,7 +198,7 @@ CREATE TABLE `job_tasks` (
   `task` varchar(255) NOT NULL,
   `amt` varchar(50) NOT NULL,
   `amt_done` varchar(50) NOT NULL,
-  `complete` int(1) NOT NULL,
+  `complete` int(1) NOT NULL DEFAULT '0',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1275,7 +1282,7 @@ ALTER TABLE `groups_menus`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `job_tasks`
